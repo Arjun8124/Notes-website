@@ -3,6 +3,11 @@ import { useState } from "react";
 export default function UModal({ currentNote, setUpdated, onUpdateNote }) {
   const [updatedNote, setUpdatedNote] = useState({ ...currentNote });
 
+  const handleTextareaInput = (e) => {
+    e.target.style.height = "auto";
+    e.target.style.height = e.target.scrollHeight + "px";
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
     onUpdateNote(updatedNote);
@@ -57,9 +62,10 @@ export default function UModal({ currentNote, setUpdated, onUpdateNote }) {
               type="text"
               placeholder="Enter the description..."
               value={updatedNote.content}
-              onChange={(e) =>
-                setUpdatedNote({ ...updatedNote, content: e.target.value })
-              }
+              onChange={(e) => {
+                setUpdatedNote({ ...updatedNote, content: e.target.value });
+                handleTextareaInput(e);
+              }}
             />
             <div className="buttons">
               <button className="btn" type="submit">

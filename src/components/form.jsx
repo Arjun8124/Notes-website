@@ -9,6 +9,11 @@ export default function Form({ onAddNote, onClose }) {
     category: "",
   });
 
+  const handleTextareaInput = (e) => {
+    e.target.style.height = "auto";
+    e.target.style.height = e.target.scrollHeight + "px";
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
     onAddNote(newNote);
@@ -55,7 +60,10 @@ export default function Form({ onAddNote, onClose }) {
           type="text"
           placeholder="Enter the description..."
           value={newNote.content}
-          onChange={(e) => setNewNote({ ...newNote, content: e.target.value })}
+          onChange={(e) => {
+            setNewNote({ ...newNote, content: e.target.value });
+            handleTextareaInput(e);
+          }}
         />
         <button className="btn" type="submit">
           Add Note

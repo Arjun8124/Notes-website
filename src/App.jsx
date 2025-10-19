@@ -71,6 +71,7 @@ export default function App() {
       {clicked && <Form onAddNote={onAddNote} onClose={onClose} />}
       {notes.length !== 0 && (
         <input
+          className="filter-input"
           type="text"
           placeholder="Search for ...."
           value={searchValue}
