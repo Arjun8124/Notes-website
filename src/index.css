@@ -362,7 +362,8 @@ h1 {
 
 .form-container input,
 .form-container select,
-.form-container textarea {
+.form-container textarea,
+.container input {
   padding: 12px;
   border: 1.5px solid rgba(102, 126, 234, 0.25);
   border-radius: 10px;
@@ -374,10 +375,15 @@ h1 {
 
 .form-container input:focus,
 .form-container select:focus,
-.form-container textarea:focus {
+.form-container textarea:focus,
+.container input:focus {
   outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+}
+
+.container input {
+  margin-bottom: 40px;
 }
 
 .form-container textarea {

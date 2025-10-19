@@ -61,9 +61,18 @@ export default function UModal({ currentNote, setUpdated, onUpdateNote }) {
                 setUpdatedNote({ ...updatedNote, content: e.target.value })
               }
             />
-            <button className="btn" type="submit">
-              Update Note
-            </button>
+            <div className="buttons">
+              <button className="btn" type="submit">
+                Update Note
+              </button>
+              <button
+                className="btn"
+                type="button"
+                onClick={() => setUpdated(false)}
+              >
+                Close
+              </button>
+            </div>
           </div>
         </form>
       </div>

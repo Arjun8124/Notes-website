@@ -11,10 +11,25 @@ export default function App() {
   const [clicked, setClicked] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [id, setId] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredNotes, setFilteredNotes] = useState([]);
 
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
+
+  useEffect(() => {
+    if (searchValue.trim() === "") setFilteredNotes(notes);
+    else {
+      setFilteredNotes(
+        notes.filter(
+          (note) =>
+            note.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+            note.content.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      );
+    }
+  }, [searchValue, notes]);
 
   function onAddNote(newNote) {
     setNotes([...notes, newNote]);
@@ -54,8 +69,16 @@ export default function App() {
         + Add new Note
       </button>
       {clicked && <Form onAddNote={onAddNote} onClose={onClose} />}
+      {notes.length !== 0 && (
+        <input
+          type="text"
+          placeholder="Search for ...."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
+      )}
       <NoteList
-        notes={notes}
+        notes={filteredNotes}
         onDelete={onDelete}
         setId={setId}
         setUpdated={setUpdated}
