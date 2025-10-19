@@ -1,0 +1,72 @@
+import { useEffect, useState } from "react";
+import Form from "./components/form";
+import NoteList from "./components/NoteList";
+import UModal from "./components/Umodal";
+
+export default function App() {
+  const [notes, setNotes] = useState(() => {
+    const raw = localStorage.getItem("notes");
+    return raw ? JSON.parse(raw) : [];
+  });
+  const [clicked, setClicked] = useState(false);
+  const [updated, setUpdated] = useState(false);
+  const [id, setId] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
+
+  function onAddNote(newNote) {
+    setNotes([...notes, newNote]);
+  }
+
+  function onUpdateNote(newNote) {
+    setNotes(
+      notes.map((note) =>
+        note.id === id
+          ? {
+              ...note,
+              title: newNote.title,
+              priority: newNote.priority,
+              category: newNote.category,
+              content: newNote.content,
+            }
+          : note
+      )
+    );
+  }
+
+  function onDelete(id) {
+    setNotes(notes.filter((note) => note.id !== id));
+  }
+
+  function onClose() {
+    setClicked(false);
+  }
+
+  return (
+    <div className="container">
+      <div className="header">
+        <span className="header-icon">📝</span>
+        <h1>Notes App</h1>
+      </div>
+      <button className="btn" onClick={() => setClicked(!clicked)}>
+        + Add new Note
+      </button>
+      {clicked && <Form onAddNote={onAddNote} onClose={onClose} />}
+      <NoteList
+        notes={notes}
+        onDelete={onDelete}
+        setId={setId}
+        setUpdated={setUpdated}
+      />
+      {updated && (
+        <UModal
+          currentNote={notes.find((note) => note.id === id)}
+          setUpdated={setUpdated}
+          onUpdateNote={onUpdateNote}
+        />
+      )}
+    </div>
+  );
+}
