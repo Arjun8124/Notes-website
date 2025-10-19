@@ -20,7 +20,7 @@ export default function Note({
       </div>
       <div className="note-content">
         <h3 className="note-title">{title}</h3>
-        <p className="note-description">{content}</p>
+        <pre className="note-description">{content}</pre>
       </div>
       <div className="buttons">
         <button className="delete-btn" onClick={() => onDelete(id)}>

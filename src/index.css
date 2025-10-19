@@ -280,6 +280,11 @@ h1 {
   font-size: 0.95rem;
   margin-bottom: 1.5rem;
   font-weight: 400;
+  white-space: pre-wrap;
+  font-family: inherit;
+  margin: 0;
+  word-wrap: break-word;
+  margin-bottom: 10px;
 }
 
 .delete-btn {
