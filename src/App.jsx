@@ -12,6 +12,8 @@ export default function App() {
   const [updated, setUpdated] = useState(false);
   const [id, setId] = useState(null);
   const [searchValue, setSearchValue] = useState("");
+  const [filterByPriority, setFilterByPriority] = useState("");
+  const [filterByCategory, setFilterByCategory] = useState("");
   const [filteredNotes, setFilteredNotes] = useState([]);
 
   useEffect(() => {
@@ -19,17 +21,26 @@ export default function App() {
   }, [notes]);
 
   useEffect(() => {
-    if (searchValue.trim() === "") setFilteredNotes(notes);
-    else {
-      setFilteredNotes(
-        notes.filter(
-          (note) =>
-            note.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-            note.content.toLowerCase().includes(searchValue.toLowerCase())
-        )
+    let result = notes;
+
+    if (searchValue.trim() !== "") {
+      result = result.filter(
+        (note) =>
+          note.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+          note.content.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-  }, [searchValue, notes]);
+
+    if (filterByPriority !== "") {
+      result = result.filter((note) => note.priority === filterByPriority);
+    }
+
+    if (filterByCategory !== "") {
+      result = result.filter((note) => note.category === filterByCategory);
+    }
+
+    setFilteredNotes(result);
+  }, [filterByCategory, filterByPriority, searchValue, notes]);
 
   function onAddNote(newNote) {
     setNotes([...notes, newNote]);
@@ -77,6 +88,30 @@ export default function App() {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
+      )}
+      {notes.length !== 0 && (
+        <select
+          className="filter-select"
+          value={filterByPriority}
+          onChange={(e) => setFilterByPriority(e.target.value)}
+        >
+          <option value="">Filter By Priority</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      )}
+      {notes.length !== 0 && (
+        <select
+          className="filter-select"
+          value={filterByCategory}
+          onChange={(e) => setFilterByCategory(e.target.value)}
+        >
+          <option value="">Filter By Category</option>
+          <option value="work">Work</option>
+          <option value="personal">Personal</option>
+          <option value="office">Office</option>
+        </select>
       )}
       <NoteList
         notes={filteredNotes}
